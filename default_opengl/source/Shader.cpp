@@ -93,6 +93,11 @@ void Shader::setVec4(const char* uniform, glm::vec4 vec) {
 	glUniform4f(uniformLocation, vec.x, vec.y, vec.z, vec.w);
 }
 
+void Shader::SetInt(const char* uniform, int val) {
+	int uniformLocation = glGetUniformLocation(id, uniform);
+	glUniform1i(uniformLocation, val);
+}
+
 void Shader::destroy() {
 	glDeleteProgram(id);
 }

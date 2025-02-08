@@ -51,6 +51,18 @@
     <ClCompile Include="source\Material.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="source\Camera.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\FBO.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\RBO.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Cubemap.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\header\Window.h">
@@ -86,9 +98,25 @@
     <ClInclude Include="source\header\Material.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="source\header\Camera.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\header\FBO.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\header\RBO.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\header\Cubemap.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\default\standard.vert" />
     <None Include="shader\default\standard.frag" />
+    <None Include="shader\screen\screen.frag" />
+    <None Include="shader\screen\screen.vert" />
+    <None Include="shader\cubemap\cubemap.frag" />
+    <None Include="shader\cubemap\cubemap.vert" />
   </ItemGroup>
 </Project>

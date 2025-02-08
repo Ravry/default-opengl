@@ -3,7 +3,6 @@
 
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
-
 #include "Renderer.h"
 
 class Window {
@@ -16,5 +15,5 @@ public:
 
 	Renderer* getRenderer() {
 		return renderer;
-	}
+	};
 };

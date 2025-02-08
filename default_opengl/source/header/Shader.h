@@ -17,5 +17,6 @@ public:
 	void setMatrix4x4(const char* uniform, glm::mat4 matrix);
 	void setVec2(const char* uniform, glm::vec2 vec);
 	void setVec4(const char* uniform, glm::vec4 vec);
+	void SetInt(const char* uniform, int val);
 	void destroy();
 };
