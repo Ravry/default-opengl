@@ -1,7 +1,5 @@
 #include "header/Window.h"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
 Window::Window(unsigned int width, unsigned int height, const char* title) {
     glfwInit();
 
