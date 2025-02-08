@@ -133,25 +133,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EBO.cpp" />
+    <ClCompile Include="source\EBO.cpp" />
     <ClCompile Include="external\glad\src\glad.c" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="VAO.cpp" />
-    <ClCompile Include="VBO.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="source\Material.cpp" />
+    <ClCompile Include="source\Object.cpp" />
+    <ClCompile Include="source\Transform.cpp" />
+    <ClCompile Include="source\Renderer.cpp" />
+    <ClCompile Include="source\Shader.cpp" />
+    <ClCompile Include="source\Texture.cpp" />
+    <ClCompile Include="source\VAO.cpp" />
+    <ClCompile Include="source\VBO.cpp" />
+    <ClCompile Include="source\Window.cpp" />
+    <ClCompile Include="source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\stbi\stb_image.h" />
-    <ClInclude Include="header\EBO.h" />
-    <ClInclude Include="header\Renderer.h" />
-    <ClInclude Include="header\Shader.h" />
-    <ClInclude Include="header\Texture.h" />
-    <ClInclude Include="header\VAO.h" />
-    <ClInclude Include="header\VBO.h" />
-    <ClInclude Include="header\Window.h" />
+    <ClInclude Include="source\header\EBO.h" />
+    <ClInclude Include="source\header\Material.h" />
+    <ClInclude Include="source\header\Object.h" />
+    <ClInclude Include="source\header\Renderer.h" />
+    <ClInclude Include="source\header\Shader.h" />
+    <ClInclude Include="source\header\Texture.h" />
+    <ClInclude Include="source\header\Transform.h" />
+    <ClInclude Include="source\header\VAO.h" />
+    <ClInclude Include="source\header\VBO.h" />
+    <ClInclude Include="source\header\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\default\standard.frag" />
