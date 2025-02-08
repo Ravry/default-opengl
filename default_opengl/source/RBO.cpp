@@ -13,3 +13,7 @@ void RBO::bind() {
 void RBO::unbind() {
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
+
+void RBO::destroy() {
+	glDeleteRenderbuffers(1, &id);
+}

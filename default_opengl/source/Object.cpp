@@ -1,7 +1,8 @@
 #include "header/Object.h"
 
-Object::Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices) : Transform() {
+Object::Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<Attrib*>& attribs) : Transform() {
 	this->material = material;
+	this->indicesCount = indices.size();
 
 	vao = new VAO();
 	vbo = new VBO();
@@ -15,12 +16,17 @@ Object::Object(Material* material, std::vector<float>& vertices, std::vector<uns
 	ebo->bind();
 	ebo->data(indices.data(), indices.size() * sizeof(unsigned int));
 
-	vao->attrib(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	vao->attrib(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	for (auto _attrib : attribs)
+		vao->attrib(_attrib->layout, _attrib->size, _attrib->type, _attrib->normalized, _attrib->stride, _attrib->pointer);
+
+	vbo->unbind();
+	ebo->unbind();
+	vao->unbind();
 }
 
-Object::Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices, glm::vec3 pos, glm::vec3 s) : Transform() {
+Object::Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices, glm::vec3 pos, glm::vec3 s, std::vector<Attrib*>& attribs) : Transform() {
 	this->material = material;
+	this->indicesCount = indices.size();
 	
 	vao = new VAO();
 	vbo = new VBO();
@@ -34,8 +40,8 @@ Object::Object(Material* material, std::vector<float>& vertices, std::vector<uns
 	ebo->bind();
 	ebo->data(indices.data(), indices.size() * sizeof(unsigned int));
 
-	vao->attrib(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	vao->attrib(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	for (auto _attrib : attribs)
+		vao->attrib(_attrib->layout, _attrib->size, _attrib->type, _attrib->normalized, _attrib->stride, _attrib->pointer);
 	
 	ebo->unbind();
 	vbo->unbind();
@@ -46,22 +52,15 @@ Object::Object(Material* material, std::vector<float>& vertices, std::vector<uns
 }
 
 void Object::render(glm::mat4 proj, glm::mat4 view) {
-	material->getShader()->use();
-	material->getShader()->setMatrix4x4("projection", proj);
-	material->getShader()->setMatrix4x4("view", view);
-	material->getShader()->setMatrix4x4("model", mat);
-	material->getShader()->setVec2("_TexTiling", glm::vec2(2, 2));
-	material->getShader()->setVec4("_TexTint", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	material->getTex()->bind();
+	material->apply(mat, view, proj);
 
 	vao->bind();
 	ebo->bind();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 	ebo->unbind();
 	vao->unbind();
 
-	material->getTex()->unbind();
-	material->getShader()->unuse();
+	material->unbind();
 }
 
 void Object::destroy() {

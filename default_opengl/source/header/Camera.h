@@ -21,6 +21,7 @@ public:
 
 	Camera(int width, int height);
 	void update(GLFWwindow* window, float deltaTime);
+	void refactorProjection(int width, int height);
 
 	glm::mat4 getProjectionMatrix() {
 		return proj;

@@ -12,6 +12,7 @@ public:
 	FBO(int width, int height);
 	void bind();
 	void unbind();
+	void refactorFBO(int width, int height);
 	void destroy();
 
 	Texture* getTex() {

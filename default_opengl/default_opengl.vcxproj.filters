@@ -60,9 +60,6 @@
     <ClCompile Include="source\RBO.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\Cubemap.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\header\Window.h">
@@ -105,9 +102,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\header\RBO.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\header\Cubemap.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

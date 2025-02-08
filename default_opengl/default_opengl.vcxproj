@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glfw\include;$(ProjectDir)\external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glfw\include;$(ProjectDir)\external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +136,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Camera.cpp" />
-    <ClCompile Include="source\Cubemap.cpp" />
     <ClCompile Include="source\EBO.cpp" />
     <ClCompile Include="external\glad\src\glad.c" />
     <ClCompile Include="source\FBO.cpp" />
@@ -153,7 +154,6 @@
   <ItemGroup>
     <ClInclude Include="external\stbi\stb_image.h" />
     <ClInclude Include="source\header\Camera.h" />
-    <ClInclude Include="source\header\Cubemap.h" />
     <ClInclude Include="source\header\EBO.h" />
     <ClInclude Include="source\header\FBO.h" />
     <ClInclude Include="source\header\Material.h" />

@@ -1,21 +1,10 @@
 #include "header/Renderer.h"
 
-Camera* cam;
-
-Shader* skyboxShader;
-Cubemap* cubemap;
-VAO* skyboxVAO;
-VBO* skyboxVBO;
-
-Shader* screenShader;
-VAO* quadVAO;
-VBO* quadVBO;
-FBO* fbo;
+Object* quadObject;
 
 Renderer::Renderer(int width, int height) {
-    cam = new Camera(width, height);
+    camera = new Camera(width, height);
 
-    skyboxShader = new Shader("./shader/cubemap/cubemap.vert", "./shader/cubemap/cubemap.frag");
     std::vector<const char*> cubemap_textures{
         "textures/skybox/right.jpg",
         "textures/skybox/left.jpg",
@@ -24,70 +13,66 @@ Renderer::Renderer(int width, int height) {
         "textures/skybox/front.jpg",
         "textures/skybox/back.jpg"
     };
-    cubemap = new Cubemap(cubemap_textures);
 
-    float skyboxVertices[] = {
-        // positions          
-        -1.0f,  1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
+    std::vector<float> skyboxVertices = {
+        -1.0f,  1.0f, -1.0f,  // 0
+        -1.0f, -1.0f, -1.0f,  // 1
+         1.0f, -1.0f, -1.0f,  // 2
+         1.0f,  1.0f, -1.0f,  // 3
+        -1.0f,  1.0f,  1.0f,  // 4
+        -1.0f, -1.0f,  1.0f,  // 5
+         1.0f, -1.0f,  1.0f,  // 6
+         1.0f,  1.0f,  1.0f   // 7
+    };
+    std::vector<unsigned int> skyboxIndices = {
+        // Front face
+        0, 1, 2,
+        2, 3, 0,
 
-        -1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
+        // Left face
+        0, 4, 5,
+        5, 1, 0,
 
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
+        // Right face
+        3, 2, 6,
+        6, 7, 3,
 
-        -1.0f, -1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f,
+        // Back face
+        7, 6, 5,
+        5, 4, 7,
 
-        -1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f, -1.0f,
-         1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f,
+        // Top face
+        0, 3, 7,
+        7, 4, 0,
 
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f,  1.0f,
-         1.0f, -1.0f,  1.0f
+        // Bottom face
+        1, 5, 6,
+        6, 2, 1
     };
 
-    skyboxVAO = new VAO();
-    skyboxVBO = new VBO();
+    Material* skyboxMaterial = new Material(
+        new Shader("./shader/cubemap/cubemap.vert", "./shader/cubemap/cubemap.frag"),
+        new Texture(cubemap_textures)
+    );
 
-    skyboxVAO->bind();
-    skyboxVBO->bind();
+    std::vector<Attrib*> skyboxAttribs{
+        new Attrib(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)
+    };
 
-    skyboxVBO->data(skyboxVertices, sizeof(skyboxVertices));
-    skyboxVAO->attrib(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    skyboxMaterial->setInt("skybox", 0);
 
-    skyboxVBO->unbind();
-    skyboxVAO->unbind();
+    objects.push_back(
+        new Object(skyboxMaterial, skyboxVertices, skyboxIndices, skyboxAttribs)
+    );
 
 
     Material* material = new Material(
         new Shader("./shader/default/standard.vert", "./shader/default/standard.frag"),
         new Texture("./textures/checkered.png", GL_POINT)
     );
+
+    material->setVec2("_TexTiling", glm::vec2(2, 2));
+    material->setVec4("_TexTint", glm::vec4(1, 0, 0, 1));
 
     std::vector<float> vertices = {
          //vertex               //uv
@@ -96,48 +81,52 @@ Renderer::Renderer(int width, int height) {
         -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,     // bottom left
         -0.5f,  0.5f, 0.0f,     0.0f, 1.0f,     // top left 
     };
-
     std::vector<unsigned int> indices = {
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
 
-    objects.push_back(
-        new Object(material, vertices, indices, glm::vec3(0), glm::vec3(1))
-    );
-
-
-    screenShader = new Shader("./shader/screen/screen.vert", "./shader/screen/screen.frag");
-
-    float quadVertices[] = {
-        -1.0f,  1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f,  0.0f, 0.0f,
-         1.0f, -1.0f,  1.0f, 0.0f,
-
-        -1.0f,  1.0f,  0.0f, 1.0f,
-         1.0f, -1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f,  1.0f, 1.0f
+    std::vector<Attrib*> attribs{
+        new Attrib(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0),
+        new Attrib(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)))
     };
 
-    quadVAO = new VAO();
-    quadVBO = new VBO();
+    objects.push_back(
+        new Object(material, vertices, indices, attribs)
+    );
 
-    quadVAO->bind();
-    quadVBO->bind();
-
-    quadVBO->data(quadVertices, sizeof(quadVertices));
-
-    quadVAO->attrib(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    quadVAO->attrib(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-    quadVBO->unbind();
-    quadVAO->unbind();
+    /*-----------------*/
 
     fbo = new FBO(width, height);
+
+    Material* quadMaterial = new Material(
+        new Shader("./shader/screen/screen.vert", "./shader/screen/screen.frag"),
+        fbo->getTex()
+    );
+
+    std::vector<float> quadVertices = {
+        -1.0f,  1.0f, 0.0f, 1.0f,  // 0 - Top Left
+        -1.0f, -1.0f, 0.0f, 0.0f,  // 1 - Bottom Left
+         1.0f, -1.0f, 1.0f, 0.0f,  // 2 - Bottom Right
+         1.0f,  1.0f, 1.0f, 1.0f   // 3 - Top Right
+    };
+    std::vector<unsigned int> quadIndices = {
+        0, 1, 2,  // First triangle
+        0, 2, 3   // Second triangle
+    };
+
+    std::vector<Attrib*> quadAttribs{
+        new Attrib(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0),
+        new Attrib(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)))
+    };
+
+    quadObject = new Object(quadMaterial, quadVertices, quadIndices, quadAttribs);
+
+    glDepthFunc(GL_LEQUAL);
 }
 
 void Renderer::render(GLFWwindow* window, float deltaTime) {
-    cam->update(window, deltaTime);
+    camera->update(window, deltaTime);
 
     fbo->bind();
     glEnable(GL_DEPTH_TEST);
@@ -148,19 +137,9 @@ void Renderer::render(GLFWwindow* window, float deltaTime) {
     for (auto obj : objects)
     {
         obj->rotate(10.0f * deltaTime, glm::vec3(0, 1, 0));
-        obj->render(cam->getProjectionMatrix(), cam->getMatrix());
+        obj->render(camera->getProjectionMatrix(), camera->getMatrix());
     }
 
-    glDepthFunc(GL_LEQUAL);
-    skyboxShader->use();
-    skyboxShader->SetInt("skybox", 0);
-    skyboxShader->setMatrix4x4("view", glm::mat4(glm::mat3(cam->getMatrix())));
-    skyboxShader->setMatrix4x4("projection", cam->getProjectionMatrix());
-    skyboxVAO->bind();
-    glActiveTexture(GL_TEXTURE0);
-    cubemap->getTexture()->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    skyboxVAO->unbind();
 
     fbo->unbind();
     glDisable(GL_DEPTH_TEST);
@@ -168,10 +147,7 @@ void Renderer::render(GLFWwindow* window, float deltaTime) {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    screenShader->use();
-    quadVAO->bind();
-    fbo->getTex()->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    quadObject->render(camera->getProjectionMatrix(), camera->getMatrix());
 
     //std::cout << 1.0f / deltaTime << std::endl;
 }
@@ -183,4 +159,6 @@ void Renderer::update_viewport(int width, int height) {
 void Renderer::cleanup() {
     for (auto obj : objects)
         obj->destroy();
+
+    fbo->destroy();
 }

@@ -1,8 +1,6 @@
 #include "header/Camera.h"
 
 Camera::Camera(int width, int height) : Transform() {
-    //proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height, 0.01f, 100.0f);
-    proj = glm::perspective(glm::radians(60.0f), (float)width / (float)height, 0.1f, 100.0f);
     speed = 5.0f;
     position = glm::vec3(0);
     worldUP = glm::vec3(0, 1, 0);
@@ -11,6 +9,9 @@ Camera::Camera(int width, int height) : Transform() {
     lastX = width / 2.0f;
     lastY = height / 2.0f;
     sens = .05f;
+
+    //proj = glm::ortho(0.0f, (float)width, 0.0f, (float)height, 0.01f, 100.0f);
+    proj = glm::perspective(glm::radians(60.0f), (float)width / (float)height, 0.1f, 100.0f);
 }
 
 void Camera::update(GLFWwindow* window, float deltaTime) {
@@ -65,7 +66,11 @@ void Camera::update(GLFWwindow* window, float deltaTime) {
     if (glm::length(_direction) != 0) {
         _direction = glm::normalize(_direction);
     }
-    position += (_direction.x * right + _direction.y * up + _direction.z * front) * deltaTime * speed;
+    position += (_direction.x * right + _direction.y * worldUP + _direction.z * front) * deltaTime * speed;
 
     mat = glm::lookAt(position, position + front, up);
+}
+
+void Camera::refactorProjection(int width, int height) {
+    proj = glm::perspective(glm::radians(60.0f), (float)width / (float)height, 0.1f, 100.0f);
 }

@@ -11,4 +11,5 @@ public:
 	unsigned int getID() {
 		return id;
 	};
+	void destroy();
 };
