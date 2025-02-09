@@ -28,6 +28,11 @@ private:
 public:
 	Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<Attrib*>& attribs);
 	Object(Material* material, std::vector<float>& vertices, std::vector<unsigned int>& indices, glm::vec3 pos, glm::vec3 scale, std::vector<Attrib*>& attribs);
-	void render(glm::mat4 proj, glm::mat4 view);
+	void applyMaterial(glm::mat4 proj, glm::mat4 view);
+	void render();
 	void destroy();
+
+	Material* getMaterial() {
+		return material;
+	};
 };

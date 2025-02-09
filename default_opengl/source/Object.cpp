@@ -51,9 +51,12 @@ Object::Object(Material* material, std::vector<float>& vertices, std::vector<uns
 	scale(s);
 }
 
-void Object::render(glm::mat4 proj, glm::mat4 view) {
+void Object::applyMaterial(glm::mat4 proj, glm::mat4 view) {
 	material->apply(mat, view, proj);
+}
 
+void Object::render()
+{
 	vao->bind();
 	ebo->bind();
 	glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);

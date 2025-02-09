@@ -100,7 +100,7 @@ Renderer::Renderer(int width, int height) {
     fbo = new FBO(width, height);
 
     Material* quadMaterial = new Material(
-        new Shader("./shader/screen/screen.vert", "./shader/screen/screen.frag"),
+        new Shader("./shader/screen/experimental/raymarch.vert", "./shader/screen/experimental/raymarch.frag"),
         fbo->getTex()
     );
 
@@ -129,25 +129,33 @@ void Renderer::render(GLFWwindow* window, float deltaTime) {
     camera->update(window, deltaTime);
 
     fbo->bind();
-    glEnable(GL_DEPTH_TEST);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glEnable(GL_DEPTH_TEST);
+    
     for (auto obj : objects)
     {
-        obj->rotate(10.0f * deltaTime, glm::vec3(0, 1, 0));
-        obj->render(camera->getProjectionMatrix(), camera->getMatrix());
+        //obj->rotate(10.0f * deltaTime, glm::vec3(0, 1, 0));
+        obj->applyMaterial(camera->getProjectionMatrix(), camera->getMatrix());
+        obj->render();
     }
-
-
+    
     fbo->unbind();
     glDisable(GL_DEPTH_TEST);
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    quadObject->render(camera->getProjectionMatrix(), camera->getMatrix());
+    quadObject->applyMaterial(camera->getProjectionMatrix(), camera->getMatrix());
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    quadObject->getMaterial()->getShader()->SetFloat("_Time", glfwGetTime());
+    quadObject->getMaterial()->getShader()->setVec3("_CameraPosition", glm::vec3(camera->position));
+    quadObject->getMaterial()->getShader()->setMatrix4x4("_CameraViewMatrix", camera->getMatrix());
+    quadObject->getMaterial()->getShader()->setMatrix4x4("_CameraProjectionMatrix", camera->getProjectionMatrix());
+    quadObject->render();
 
     //std::cout << 1.0f / deltaTime << std::endl;
 }

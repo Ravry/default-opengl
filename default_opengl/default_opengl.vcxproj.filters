@@ -112,5 +112,30 @@
     <None Include="shader\screen\screen.vert" />
     <None Include="shader\cubemap\cubemap.frag" />
     <None Include="shader\cubemap\cubemap.vert" />
+    <None Include="shader\screen\experimental\raymarch.frag" />
+    <None Include="shader\screen\experimental\raymarch.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="textures\checkered.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\back.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\bottom.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\front.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\left.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\right.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="textures\skybox\top.jpg">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
 </Project>
