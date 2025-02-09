@@ -60,6 +60,9 @@
     <ClCompile Include="source\RBO.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="source\TextRenderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\header\Window.h">
@@ -104,6 +107,9 @@
     <ClInclude Include="source\header\RBO.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="source\header\TextRenderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\default\standard.vert" />
@@ -114,6 +120,8 @@
     <None Include="shader\cubemap\cubemap.vert" />
     <None Include="shader\screen\experimental\raymarch.frag" />
     <None Include="shader\screen\experimental\raymarch.vert" />
+    <None Include="shader\text\text.frag" />
+    <None Include="shader\text\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\checkered.png">

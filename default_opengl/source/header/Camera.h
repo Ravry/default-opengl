@@ -4,9 +4,12 @@
 
 class Camera : public Transform {
 private:
-    glm::mat4 proj;
+	float fov;
+	glm::mat4 proj;
+	glm::mat4 projOrtho;
 
 	float speed;
+	float speedMultiplier;
 	float yaw;
 	float pitch;
 	float sens;
@@ -19,11 +22,17 @@ public:
 	glm::vec3 right;
 	glm::vec3 worldUP;
 
-	Camera(int width, int height);
+	Camera(int width, int height, float fov);
 	void update(GLFWwindow* window, float deltaTime);
+	void handleKeyboardInput(GLFWwindow* window, float deltaTime);
+	void handleMouseInput(GLFWwindow* window);
 	void refactorProjection(int width, int height);
 
 	glm::mat4 getProjectionMatrix() {
 		return proj;
 	};
+
+	glm::mat4 getProjectionOrtho() {
+		return projOrtho;
+	}
 };

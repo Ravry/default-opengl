@@ -24,6 +24,27 @@ Texture::Texture(int width, int height) {
     unbind();
 }
 
+Texture::Texture(int width, int height, const void* pixels) {
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RED,
+        width,
+        height,
+        0,
+        GL_RED,
+        GL_UNSIGNED_BYTE,
+        pixels
+    );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
 Texture::Texture(std::vector<const char*>& cubemap_textures) {
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_CUBE_MAP, id);

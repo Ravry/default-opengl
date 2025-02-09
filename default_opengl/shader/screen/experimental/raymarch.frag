@@ -7,8 +7,8 @@ uniform sampler2D screenTexture;
 
 uniform vec3 _CameraPosition;
 uniform float _Time;
-uniform mat4 _CameraViewMatrix;
-uniform mat4 _CameraProjectionMatrix;
+uniform mat4 view;
+uniform mat4 projection;
 
 float sdSphere(vec3 p, float radius) {
     return length(p) - radius;
@@ -23,6 +23,7 @@ vec3 calculateNormal(vec3 p) {
         sdSphere(p + vec3(0, 0, eps), 1.0) - d
     );
     return normalize(n);
+    
 }
 
 void main()
@@ -30,11 +31,11 @@ void main()
     vec2 ndc = TexCoords * 2.0 - 1.0;
     vec4 clipSpacePos = vec4(ndc, -1.0, 1.0);
 
-    vec4 viewSpacePos = inverse(_CameraProjectionMatrix) * clipSpacePos;
+    vec4 viewSpacePos = inverse(projection) * clipSpacePos;
     viewSpacePos /= viewSpacePos.w;
 
     vec3 rayOrigin = _CameraPosition;
-    vec3 rayDirection = normalize((inverse(_CameraViewMatrix) * vec4(viewSpacePos.xyz, 0.0)).xyz);
+    vec3 rayDirection = normalize((inverse(view) * vec4(viewSpacePos.xyz, 0.0)).xyz);
 
     float dist = 0.0;
     vec3 p = rayOrigin;
@@ -49,6 +50,7 @@ void main()
             float diffuse = max(dot(normal, lightDir), 0.1);
             
             vec3 baseColor = vec3(0.2, 0.2, 0.8);
+            baseColor = normal;
             vec3 litColor = baseColor * diffuse;
             
             FragColor = vec4(litColor, 1.0);

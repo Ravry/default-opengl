@@ -1,8 +1,8 @@
 #pragma once
-#include <glm/glm.hpp>
 #include "Object.h"
 #include "FBO.h"
 #include "Camera.h"
+#include "TextRenderer.h"
 
 class Renderer {
 private:

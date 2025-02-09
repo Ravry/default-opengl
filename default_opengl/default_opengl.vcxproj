@@ -142,6 +142,7 @@
     <ClCompile Include="source\Material.cpp" />
     <ClCompile Include="source\Object.cpp" />
     <ClCompile Include="source\RBO.cpp" />
+    <ClCompile Include="source\TextRenderer.cpp" />
     <ClCompile Include="source\Transform.cpp" />
     <ClCompile Include="source\Renderer.cpp" />
     <ClCompile Include="source\Shader.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="source\header\RBO.h" />
     <ClInclude Include="source\header\Renderer.h" />
     <ClInclude Include="source\header\Shader.h" />
+    <ClInclude Include="source\header\TextRenderer.h" />
     <ClInclude Include="source\header\Texture.h" />
     <ClInclude Include="source\header\Transform.h" />
     <ClInclude Include="source\header\VAO.h" />
@@ -176,6 +178,8 @@
     <None Include="shader\screen\experimental\raymarch.vert" />
     <None Include="shader\screen\screen.frag" />
     <None Include="shader\screen\screen.vert" />
+    <None Include="shader\text\text.frag" />
+    <None Include="shader\text\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\checkered.png" />

@@ -45,8 +45,6 @@ Window::Window(unsigned int width, unsigned int height, const char* title) {
         if (instance)
         {
             instance->getRenderer()->update_viewport(w, h);
-            instance->getRenderer()->camera->refactorProjection(w, h);
-            instance->getRenderer()->fbo->refactorFBO(w, h);
         }
         glViewport(0, 0, w, h);
     });

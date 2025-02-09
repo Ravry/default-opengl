@@ -10,6 +10,7 @@ private:
 public:
 	Texture(const char* filename, GLint filtermode);
 	Texture(int width, int height);
+	Texture(int width, int heigth, const void* pixels);
 	Texture(std::vector<const char*>& cubemap_textures);
 	void bind();
 	void unbind();

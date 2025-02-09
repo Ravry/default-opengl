@@ -12,8 +12,8 @@ void VBO::unbind() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void VBO::data(float* vertices, size_t size) {
-	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+void VBO::data(float* vertices, size_t size, GLenum usage) {
+	glBufferData(GL_ARRAY_BUFFER, size, vertices, usage);
 }
 
 void VBO::destroy() {
