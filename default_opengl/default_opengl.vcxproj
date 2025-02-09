@@ -170,6 +170,7 @@
     <ClInclude Include="source\header\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="shader\cubemap\cubemap.frag" />
     <None Include="shader\cubemap\cubemap.vert" />
     <None Include="shader\default\standard.frag" />

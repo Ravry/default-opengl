@@ -122,6 +122,7 @@
     <None Include="shader\screen\experimental\raymarch.vert" />
     <None Include="shader\text\text.frag" />
     <None Include="shader\text\text.vert" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\checkered.png">
